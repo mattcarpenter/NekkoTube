@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
-from loader import Loader
+from scraper import Scraper
 import sys
 import getopt
 
-HELP_HINT = 'load.py -v <inputvideo>'
+HELP_HINT = 'scrape.py -v <inputvideo>'
 
 def main(argv):
     video_id = ''
@@ -20,8 +20,8 @@ def main(argv):
             video_id = arg
 
     if len(video_id) > 0:
-        video_loader = Loader()
-        video_loader.load(video_id)
+        caption_scraper = Scraper()
+        caption_scraper.scrape(video_id)
     else:
         print(HELP_HINT)
 
