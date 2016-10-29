@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import tinysegmenter
+from tinysegmenter import TinySegmenter
 from jNlp.jTokenize import jTokenize
 
 class CaptionParser:
@@ -9,7 +9,7 @@ class CaptionParser:
 
     def parse(self):
         statement = '私はpython大好きStanding Engineerです．'
-        tokenized_statement = tinysegmenter.tokenize(statement)
+        tokenized_statement = TinySegmenter().tokenize(statement)
         tokenized_statement_2 = jTokenize(statement)
         print(tokenized_statement)
-        #print(tokenized_statement_2)
+        print(tokenized_statement_2)
