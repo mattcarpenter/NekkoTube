@@ -12,4 +12,5 @@ class CaptionParser:
         tokenized_statement = TinySegmenter().tokenize(statement)
         print(tokenized_statement)
         k = Kakasi()
-        k.parse_tokens(['a'])
+        inverted = k.parse_tokens(tokenized_statement)
+        print(inverted)
