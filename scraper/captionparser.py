@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from tinysegmenter import TinySegmenter
-from jNlp.jTokenize import jTokenize
+from .kakasi import Kakasi
 
 class CaptionParser:
     def __init__(self, raw_data):
@@ -10,6 +10,6 @@ class CaptionParser:
     def parse(self):
         statement = '私はpython大好きStanding Engineerです．'
         tokenized_statement = TinySegmenter().tokenize(statement)
-        tokenized_statement_2 = jTokenize(statement)
         print(tokenized_statement)
-        print(tokenized_statement_2)
+        k = Kakasi()
+        k.parse_tokens(['a'])
