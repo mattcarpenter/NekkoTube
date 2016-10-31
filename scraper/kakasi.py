@@ -11,4 +11,3 @@ class Kakasi:
             child.expect('\n')
             return child.readline().decode('utf-8').strip()
         return [parse_token(token) for token in tokens]
-p
