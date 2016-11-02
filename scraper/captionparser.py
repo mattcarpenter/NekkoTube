@@ -12,25 +12,35 @@ class CaptionParser:
 
         raw_chunks = self.raw_data.split('\n\n')
         parsed_chunks = []
-        print(Dictionary().lookup('foo'))
 
         for chunk in raw_chunks[1:]:
             chunk_lines = chunk.split('\n')
             time_range = chunk_lines[0]
             original_lines = []
             inverted_lines = []
+            definition_lines = []
 
             print('parsing chunk...')
 
             for chunk_line in chunk_lines[1:]:
+                # split lines into words
                 tokens = TinySegmenter().tokenize(chunk_line)
+
+                # clean up whitespace, re-join using a single space, and push into original_lines
                 original_lines.append(' '.join([token.strip() for token in tokens]))
-                inverted_lines.append(Kakasi().invert(' '.join(tokens)))
+
+                # invert Kanji into Hiragana, re-join using a single space, and push into original lines
+                str_inverted_tokens = Kakasi().invert(' '.join(tokens))
+                inverted_lines.append(str_inverted_tokens)
+
+                # translate
+                definition_lines = [Dictionary().lookup(token) for token in str_inverted_tokens.split(' ')]
 
             parsed_chunks.append({
                 'time_range': time_range,
                 'original_lines': original_lines,
-                'inverted_lines': inverted_lines
+                'inverted_lines': inverted_lines,
+                'definition_lines': definition_lines
             })
 
-        print(parsed_chunks)
+        return parsed_chunks

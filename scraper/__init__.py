@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import httplib2
+import json
 import os
 import sys
 
@@ -51,7 +52,7 @@ class Scraper:
 
         # Tokenizes the Japanese captions and translates Kanji into Hirigana
         parser = CaptionParser(captions.decode('utf-8'))
-        parser.parse()
+        print(json.dumps(parser.parse()))
 
     # Authorize the request and store authorization credentials.
     def get_authenticated_service(self):
