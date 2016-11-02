@@ -2,14 +2,17 @@
 
 from tinysegmenter import TinySegmenter
 from .kakasi import Kakasi
+from .dictionary import Dictionary
 
 class CaptionParser:
     def __init__(self, raw_data):
         self.raw_data = raw_data
 
     def parse(self):
+
         raw_chunks = self.raw_data.split('\n\n')
         parsed_chunks = []
+        print(Dictionary().lookup('foo'))
 
         for chunk in raw_chunks[1:]:
             chunk_lines = chunk.split('\n')
