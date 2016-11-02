@@ -22,7 +22,7 @@ class CaptionParser:
             for chunk_line in chunk_lines[1:]:
                 tokens = TinySegmenter().tokenize(chunk_line)
                 original_lines.append(' '.join([token.strip() for token in tokens]))
-                inverted_lines.append(' '.join([token.strip() for token in Kakasi().invert_tokens(tokens)]))
+                inverted_lines.append(Kakasi().invert(' '.join(tokens)))
 
             parsed_chunks.append({
                 'time_range': time_range,

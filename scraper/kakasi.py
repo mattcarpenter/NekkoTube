@@ -11,3 +11,8 @@ class Kakasi:
             child.expect('\n')
             return child.readline().decode('utf-8').strip()
         return [parse_token(token) for token in tokens]
+
+    def invert(self, phrase):
+        child.sendline(phrase)
+        child.expect('\n')
+        return child.readline().decode('utf-8').strip()
