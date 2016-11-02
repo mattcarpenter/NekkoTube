@@ -34,7 +34,7 @@ class CaptionParser:
                 inverted_lines.append(str_inverted_tokens)
 
                 # translate
-                definition_lines = [Dictionary().lookup(token) for token in str_inverted_tokens.split(' ')]
+                definition_lines.append([[Dictionary().lookup(token) for token in str_inverted_tokens.split(' ')]])
 
             parsed_chunks.append({
                 'time_range': time_range,
