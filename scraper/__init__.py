@@ -33,6 +33,18 @@ class Scraper:
         db = mongo_client['nekkotube']
         es = Elasticsearch()
 
+        # Loads metadata
+        metadata = self.youtube.videos().list(
+            part = 'snippet',
+            id = video_id
+        ).execute()
+
+        try:
+            snippet = metadata['items'][0]['snippet']
+        except:
+            raise ValueError('Video not found.')
+
+
         # Loads captions for specified YouTube video id
         results = self.youtube.captions().list(
             part = 'snippet',
@@ -63,6 +75,8 @@ class Scraper:
         # Create record in Mongo
         result = db.videos.insert_one({
             'youtubeVideoId': video_id,
+            'title': snippet['title'],
+            'thumbnails': snippet['thumbnails'],
             'captionData': parsed_captions
         })
         print('Video inserted. id: {}'.format(result.inserted_id))
@@ -97,7 +111,7 @@ class Scraper:
 
         # Trusted testers can download this discovery document from the developers page
         # and it should be in the same directory with the code.
-        with open("youtube-v3-api-captions.json", "r", encoding='utf-8') as f:
+        with open("youtube-v3-api.json", "r", encoding='utf-8') as f:
             doc = f.read()
             return build_from_document(doc, http=credentials.authorize(httplib2.Http()))
 
