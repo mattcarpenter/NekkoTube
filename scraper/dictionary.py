@@ -23,4 +23,4 @@ class Dictionary:
         for glosses_row in c.execute('SELECT g.gloss, s.pos FROM glosses g INNER JOIN senses s ON g.sense_id = s.sense_id WHERE g.ent_seq=' + str(int(found_entry))):
             definitions.append(glosses_row)
 
-        return definitions
+        return definitions[:3]
