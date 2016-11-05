@@ -10,6 +10,8 @@ from apiclient.errors import HttpError
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 from oauth2client.tools import argparser, run_flow
+from pymongo import MongoClient
+from elasticsearch import Elasticsearch
 
 from .captionparser import CaptionParser
 
@@ -26,6 +28,10 @@ class Scraper:
         self.youtube = self.get_authenticated_service()
 
     def scrape(self, video_id):
+
+        mongo_client = MongoClient()
+        db = mongo_client['nekkotube']
+        es = Elasticsearch()
 
         # Loads captions for specified YouTube video id
         results = self.youtube.captions().list(
@@ -52,7 +58,29 @@ class Scraper:
 
         # Tokenizes the Japanese captions and translates Kanji into Hirigana
         parser = CaptionParser(captions.decode('utf-8'))
-        print(json.dumps(parser.parse()))
+        parsed_captions = parser.parse()
+
+        # Create record in Mongo
+        result = db.videos.insert_one({
+            'youtubeVideoId': video_id,
+            'captionData': parsed_captions
+        })
+        print('Video inserted. id: {}'.format(result.inserted_id))
+
+        # Index each caption line
+        for chunk_index, chunk in enumerate(parsed_captions):
+            for line_index, line in enumerate(chunk['inverted_lines']):
+                doc = {
+                    'youtubeVideoId': video_id,
+                    'refId': str(result.inserted_id),
+                    'chunkIndex': chunk_index,
+                    'lineIndex': line_index,
+                    'line': line
+                }
+                res = es.index(index='nekkotube', doc_type='caption_line', body=doc)
+                print(res)
+
+        print(json.dumps(parsed_captions))
 
     # Authorize the request and store authorization credentials.
     def get_authenticated_service(self):
