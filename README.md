@@ -13,8 +13,10 @@
 > brew install mongodb
 
 # Set up NekkoTube
+> git clone https://github.com/mattcarpenter/nekkotube.git
 > cd NekkoTube
 > gunzip db/JMdict_e.gz db/
+
 > export PYTHONPATH=.
 > export FLASK_APP=nekkotube.py
 > export FLASK_DEBUG=1
