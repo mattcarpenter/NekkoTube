@@ -29,6 +29,6 @@ class Search(Resource):
     def get(self):
         result = es.search(
             index='nekkotube',
-            body={'query': { 'match_phrase': { 'line': request.args['query'] }}}
+            body={'query': { 'match_phrase': { 'inverted': request.args['query'] }}}
         )
         return result
