@@ -6,7 +6,8 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import * as reducers from './reducers'
-import { App, Home, Video} from './components'
+import { Home } from './components'
+import { App, Video } from './containers'
 
 const reducer = combineReducers({
   ...reducers,
