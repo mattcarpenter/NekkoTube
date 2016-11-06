@@ -82,17 +82,16 @@ class Scraper:
         print('Video inserted. id: {}'.format(result.inserted_id))
 
         # Index each caption line
-        for chunk_index, chunk in enumerate(parsed_captions):
-            for line_index, line in enumerate(chunk['inverted_lines']):
-                doc = {
-                    'youtubeVideoId': video_id,
-                    'refId': str(result.inserted_id),
-                    'chunkIndex': chunk_index,
-                    'lineIndex': line_index,
-                    'line': line
-                }
-                res = es.index(index='nekkotube', doc_type='caption_line', body=doc)
-                print(res)
+        for line_index, line in enumerate(parsed_captions):
+            doc = {
+                'youtubeVideoId': video_id,
+                'refId': str(result.inserted_id),
+                'chunkIndex': line_index,
+                'original': line['original'],
+                'inverted': line['inverted']
+            }
+            res = es.index(index='nekkotube', doc_type='caption_line', body=doc)
+            print(res)
 
         print(json.dumps(parsed_captions))
 
