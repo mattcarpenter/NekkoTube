@@ -2,7 +2,6 @@ from flask import Flask, render_template
 from flask_restful import Api
 from flask_restful_swagger import swagger
 from .resources.search import Search
-import os
 
 # create our little application :)
 app = Flask(__name__)
