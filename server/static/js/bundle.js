@@ -94,9 +94,7 @@
 	        _reactRouter.Route,
 	        { path: '/', component: _components.App },
 	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _components.Home }),
-	        _react2.default.createElement(_reactRouter.Route, { path: 'foo', component: _components.Foo }),
-	        _react2.default.createElement(_reactRouter.Route, { path: 'bar', component: _components.Bar }),
-	        _react2.default.createElement(_reactRouter.Route, { path: 'video', component: _components.Video })
+	        _react2.default.createElement(_reactRouter.Route, { path: 'video/:videoId', component: _components.Video })
 	      )
 	    )
 	  )
@@ -29029,6 +29027,7 @@
 	    _react2.default.createElement(
 	      'div',
 	      { style: { marginTop: '1.5em' } },
+	      'children: ',
 	      children
 	    )
 	  );
@@ -29195,8 +29194,7 @@
 	function onReady(e) {
 	  var p = e.target;
 	  setTimeout(function () {
-	    console.log(p);
-	    debugger;
+	    console.log(p.getMediaReferenceTime());
 	  }, 4000);
 	}
 

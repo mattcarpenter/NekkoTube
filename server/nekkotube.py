@@ -11,7 +11,10 @@ api = swagger.docs(Api(app), apiVersion='0.1')
 api.add_resource(Search, '/search')
 
 @app.route('/')
-def hello():
+def home():
     return render_template('index.html')
 
+@app.route('/video/<string:video_id>')
+def video(video_id):
+    return render_template('index.html')
 

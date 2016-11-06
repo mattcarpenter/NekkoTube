@@ -12,8 +12,7 @@ const opts = {
 function onReady(e) {
   var p = e.target
   setTimeout(function () {
-    console.log(p);
-    debugger;
+    console.log(p.getMediaReferenceTime());
   },4000);
 }
 

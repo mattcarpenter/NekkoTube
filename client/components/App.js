@@ -9,10 +9,6 @@ export default function App({ children }) {
         {' '}
         <Link to="/">Home</Link>
         {' '}
-        <Link to="/foo">Foo</Link>
-        {' '}
-        <Link to="/bar">Bar</Link>
-        {' '}
         <Link to="/video">Video</Link>
       </header>
       <div>
