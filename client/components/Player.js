@@ -5,16 +5,15 @@ const opts = {
     height: '390',
     width: '640',
     playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 1
+        autoplay: 0
     }
  };
 
 class Video extends React.Component {
   componentDidMount() {
-    this.setState({
-      videoId: this.props.videoId
-    });
-    debugger;
+    //this.setState({
+    //  videoId: this.props.videoId
+    //});
   }
 
   onReady(event) {
@@ -26,7 +25,7 @@ class Video extends React.Component {
   render() {
     return (
       <YouTube
-        videoId="2g811Eo7K8U"
+        videoId={this.props.videoId}
         opts={opts}
         onReady={this.onReady}
       />
