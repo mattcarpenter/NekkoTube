@@ -5,7 +5,7 @@ from flask import request
 
 es = Elasticsearch()
 
-class Search(Resource):
+class SearchResource(Resource):
     "Search Indexed Videos"
     @swagger.operation(
         notes='Searches indexed Youtube videos',
