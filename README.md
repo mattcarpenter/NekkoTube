@@ -14,8 +14,10 @@
 
 # Set up NekkoTube
 > git clone https://github.com/mattcarpenter/nekkotube.git
-> cd NekkoTube
-> gunzip db/JMdict_e.gz db/
+> git clone https://github.com/leoboiko/myougiden
+> cd myougiden/bin
+> ./updatedb-myougiden -f
+# todo: instructions for copying sqlite3 db
 
 > export PYTHONPATH=.
 > export FLASK_APP=nekkotube.py

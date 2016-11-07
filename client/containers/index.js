@@ -1,3 +1,3 @@
 
-export App from './App'
-export Video from './Video'
+export AppContainer from './AppContainer'
+export VideoContainer from './VideoContainer'

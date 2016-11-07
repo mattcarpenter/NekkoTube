@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Player } from '../components'
+import { Video } from '../components'
 
-class Video extends React.Component {
+class VideoContainer extends React.Component {
   componentDidMount() {
     console.log('------------------ componentDidMount');
     /*this.setState({
@@ -14,8 +14,7 @@ class Video extends React.Component {
     console.log('--------------- render');
     return (
       <div>
-        Hello
-        <Player videoId={this.props.params.videoId}/>
+        <Video videoId={this.props.params.videoId}/>
       </div>
     )
   }
@@ -30,10 +29,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   console.log('-------------mapDispatchToProps');
+  // @todo: fetch video
   return {
   };
 }
 
-Video = connect(mapStateToProps, mapDispatchToProps)(Video)
+VideoContainer = connect(mapStateToProps, mapDispatchToProps)(VideoContainer)
 
-export default Video 
+export default VideoContainer 
