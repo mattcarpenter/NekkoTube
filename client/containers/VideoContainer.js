@@ -1,39 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Video } from '../components'
-
-class VideoContainer extends React.Component {
-  componentDidMount() {
-    console.log('------------------ componentDidMount');
-    /*this.setState({
-      videoId: this.props.params.videoId
-    });*/
-  }
-
-  render() {
-    console.log('--------------- render');
-    return (
-      <div>
-        <Video videoId={this.props.params.videoId}/>
-      </div>
-    )
-  }
-}
+import { fetchVideo, fetchVideoSuccess, fetchVideoFailure } from '../actions/videos'
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('------mapStateToProps');
+  console.log('VideoContainer mapStateToProps');
   return {
-    //active: ownProps.filter === state.visibilityFilter
+    videoId: ownProps.params.videoId
   };
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  console.log('-------------mapDispatchToProps');
-  // @todo: fetch video
+  console.log('VideoContainer mapDispatchToProps');
   return {
+    fetchVideo: (videoId) => {
+      dispatch(fetchVideo(videoId)).then((response) => {
+        !response.error ? dispatch(fetchVideoSuccess(response.payload)) : dispatch(fetchVideoFailure(response.payload));
+      });
+    }
   };
 }
 
-VideoContainer = connect(mapStateToProps, mapDispatchToProps)(VideoContainer)
-
-export default VideoContainer 
+export default connect(mapStateToProps, mapDispatchToProps)(Video)

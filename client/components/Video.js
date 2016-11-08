@@ -11,9 +11,7 @@ const opts = {
 
 class Video extends React.Component {
   componentDidMount() {
-    //this.setState({
-    //  videoId: this.props.videoId
-    //});
+    this.props.fetchVideo(this.props.videoId);
   }
 
   onReady(event) {
