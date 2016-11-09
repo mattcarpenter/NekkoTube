@@ -1,6 +1,8 @@
 import React from 'react'
 import YouTube from 'react-youtube'
 
+import { PLAYER_STATE_READY } from '../actions/youtubePlayer'
+
 const opts = {
     height: '390',
     width: '640',
@@ -10,14 +12,29 @@ const opts = {
  };
 
 class Video extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   componentDidMount() {
     this.props.fetchVideo(this.props.videoId);
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.playing && this.props.playing) {
+      this.state.player.playVideo();
+    }
+  }
+
   onReady(event) {
-    setTimeout(function () {
-        console.log(event.target.getMediaReferenceTime());
-    }, 3000);
+    // store reference to player so we can programatically play/pause/seek
+    this.state.player = event.target;
+
+    // Set the player state to `ready` in the Redux store
+    this.props.updatePlayerState(PLAYER_STATE_READY);
+
+    //console.log(event.target.getMediaReferenceTime());
   }
 
   render() {
@@ -25,7 +42,7 @@ class Video extends React.Component {
       <YouTube
         videoId={this.props.videoId}
         opts={opts}
-        onReady={this.onReady}
+        onReady={this.onReady.bind(this)}
       />
     );
   }

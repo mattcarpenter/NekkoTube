@@ -4,6 +4,9 @@ export const FETCH_VIDEO = 'FETCH_VIDEO';
 export const FETCH_VIDEO_SUCCESS = 'FETCH_VIDEO_SUCCESS';
 export const FETCH_VIDEO_FAILURE = 'FETCH_VIDEO_FAILURE';
 
+export const VIDEO_STATE_LOADED = 'VIDEO_STATE_LOADED';
+export const VIDEO_STATE_LOADING = 'VIDEO_STATE_LOADING';
+
 export function fetchVideo(videoId) {
 	const request = axios({
 		method: 'get',
@@ -18,7 +21,6 @@ export function fetchVideo(videoId) {
 }
 
 export function fetchVideoSuccess(video) {
-	console.log('fetch success');
 	return {
 		type: FETCH_VIDEO_SUCCESS,
 		payload: video
