@@ -1,5 +1,6 @@
 import React from 'react'
 import YouTube from 'react-youtube'
+import { PLAYER_STATE_LOADED, PLAYER_STATE_LOADING, PLAYER_STATE_PLAYING, PLAYER_STATE_PAUSED } from '../actions/player'
 
 const opts = {
     height: '390',
@@ -21,20 +22,18 @@ class Video extends React.Component {
 
   componentDidUpdate(prevProps) {
     // Auto-play the video once the captions and video have both loaded.
-    if (this.player && this.props.videoData && this.state.pendingAutoplay) {
-      this.state.pendingAutoplay = false;
+    if (prevProps.playerState === PLAYER_STATE_LOADING
+      && this.props.playerState === PLAYER_STATE_LOADED) {
       this.player.playVideo();
+      this.props.onVideoStateChange(PLAYER_STATE_PLAYING);
     }
   }
 
   onReady(event) {
     // store reference to player so we can programatically play/pause/seek
     this.player = event.target;
+    this.props.onVideoStateChange(PLAYER_STATE_LOADED);
 
-    // Auto-play the video once the captions and video have both loaded.
-    if (this.props.videoData) {
-      this.player.playVideo();
-    }
     //console.log(event.target.getMediaReferenceTime());
   }
 
