@@ -24,6 +24,9 @@ class Video extends React.Component {
     this.props.fetchVideo(this.props.videoId);
   }
 
+  /**
+   * Grabs current time from the YouTube player and updates application state
+   */
   tick() {
     this.props.onPlayerTimeChange(this.player.getMediaReferenceTime());
     if (this.props.playerState === PLAYER_STATE_PLAYING) {
@@ -31,6 +34,10 @@ class Video extends React.Component {
     }
   }
 
+  /**
+   * Invoked when props passed to this component have changed
+   * @param {object} prevProps previous props
+   */
   componentDidUpdate(prevProps) {
     // Auto-play the video once the captions and video have both loaded.
     if (prevProps.playerState === PLAYER_STATE_LOADING
@@ -46,14 +53,20 @@ class Video extends React.Component {
     }
   }
 
+  /** 
+   * Called when the YouTube player is ready
+   * @param {object} event
+   */
   onReady(event) {
     // store reference to player so we can programatically play/pause/seek
     this.player = event.target;
     this.props.onVideoStateChange(PLAYER_STATE_LOADED);
-
-    //console.log(event.target.getMediaReferenceTime());
   }
 
+  /**
+   * Invoked when the YouTube player state has changed
+   * @param {object} event
+   */
   onStateChange(event) {
     if (event.data === YOUTUBE_STATE_PAUSED) {
       this.props.onVideoStateChange(PLAYER_STATE_PAUSED);
