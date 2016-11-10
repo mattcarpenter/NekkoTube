@@ -18,7 +18,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(fetchVideo(videoId)).then((response) => {
         !response.error ? dispatch(fetchVideoSuccess(response.payload)) : dispatch(fetchVideoFailure(response.payload));
       });
-    }
+    },
+    
   };
 }
 

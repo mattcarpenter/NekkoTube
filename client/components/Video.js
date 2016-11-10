@@ -20,7 +20,7 @@ class Video extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // props may have been updated with video data
+    // Auto-play the video once the captions and video have both loaded.
     if (this.player && this.props.videoData && this.state.pendingAutoplay) {
       this.state.pendingAutoplay = false;
       this.player.playVideo();
@@ -30,6 +30,8 @@ class Video extends React.Component {
   onReady(event) {
     // store reference to player so we can programatically play/pause/seek
     this.player = event.target;
+
+    // Auto-play the video once the captions and video have both loaded.
     if (this.props.videoData) {
       this.player.playVideo();
     }
