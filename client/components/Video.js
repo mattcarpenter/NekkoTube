@@ -1,8 +1,6 @@
 import React from 'react'
 import YouTube from 'react-youtube'
 
-import { PLAYER_STATE_READY } from '../actions/youtubePlayer'
-
 const opts = {
     height: '390',
     width: '640',
@@ -14,7 +12,7 @@ const opts = {
 class Video extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { pendingAutoplay: true };
   }
 
   componentDidMount() {
@@ -22,18 +20,19 @@ class Video extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.playing && this.props.playing) {
-      this.state.player.playVideo();
+    // props may have been updated with video data
+    if (this.player && this.props.videoData && this.state.pendingAutoplay) {
+      this.state.pendingAutoplay = false;
+      this.player.playVideo();
     }
   }
 
   onReady(event) {
     // store reference to player so we can programatically play/pause/seek
-    this.state.player = event.target;
-
-    // Set the player state to `ready` in the Redux store
-    this.props.updatePlayerState(PLAYER_STATE_READY);
-
+    this.player = event.target;
+    if (this.props.videoData) {
+      this.player.playVideo();
+    }
     //console.log(event.target.getMediaReferenceTime());
   }
 

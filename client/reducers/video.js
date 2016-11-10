@@ -6,7 +6,8 @@ const initialState = {
 
 export default function update(state = initialState, action) {
   if(action.type === FETCH_VIDEO_SUCCESS) {
-    return { ...state, state: VIDEO_STATE_LOADED };
+  	console.log('fetch video succcess. action:', action);
+    return { ...state, state: VIDEO_STATE_LOADED, data: action.payload.data };
   }
 
   return state
