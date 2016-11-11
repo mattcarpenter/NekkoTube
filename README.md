@@ -16,15 +16,9 @@ Requires Python 3.5.0
 
 # Set up NekkoTube
 > git clone https://github.com/mattcarpenter/nekkotube.git
-> git clone https://github.com/leoboiko/myougiden
-> cd myougiden
-> python setup.py install
-> cd bin
-> ./updatedb-myougiden -f
-
-# sqlite japanese dictionary db is copied to the 'share/myougiden/' directory in your Python path
-# e.g. /Users/mcarpenter/.pyenv/versions/3.5.0/share/myougiden/
-> cp jmdict_e.sqlite ~/repos/jmdict.sqlite
+> cd nekkotube/db
+> gunzip jmdict.sqlite.gz
+> cd ../scraper
 
 # Create a client_secrets.json file inside the scraper directory for the YouTube data API.
 # You'll need to create a client id and OAuth client secret.
@@ -32,7 +26,7 @@ Requires Python 3.5.0
 # https://console.developers.google.com/apis/
 
 # Run Flask
-> cd ~/repos/NekkoTube/
+> cd ~/repos/nekkotube/
 > export PYTHONPATH=.
 > export FLASK_APP=nekkotube.py
 > export FLASK_DEBUG=1
