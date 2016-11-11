@@ -26,6 +26,11 @@ Requires Python 3.5.0
 # e.g. /Users/mcarpenter/.pyenv/versions/3.5.0/share/myougiden/
 > cp jmdict_e.sqlite ~/repos/jmdict.sqlite
 
+# Create a client_secrets.json file inside the scraper directory for the YouTube data API.
+# You'll need to create a client id and OAuth client secret.
+# https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
+# https://console.developers.google.com/apis/
+
 # Run Flask
 > cd ~/repos/NekkoTube/
 > export PYTHONPATH=.
