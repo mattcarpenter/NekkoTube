@@ -4,6 +4,10 @@ from tinysegmenter import TinySegmenter
 from .kakasi import Kakasi
 from .dictionary import Dictionary
 
+particles = {'は','か','が','に','の','は','に','へ','を','と','や','など','も','も','に','に','で','と','の','から','より','まで','くらい','ほど','ばかり','で','か','を','を','に','に','に','と','と いう','とか','で','と','より','より','くらい','ほど','か','も','に','をする','でも','でも','で','から','に','は','が','を','で','で','だけ','だけ','で','でも','も','でも','ばかり','ばかり','ところ','が','から','ながら','が','の','から','ので','の','の','なら','なら','と','ば','ばいい','ば','たら','たら','ところ','ても','ても','ても','ては','のみ','まで','さえ','さえ','のに','ながら','とか','たり','たり','のに','のです','きり','きり','とも','ながら','しか','しかない','し','し','とも','に','か','か','だの','だの','など','やら','やら','ても','とも','は','と','など','くらい','ほど','ほど','だけ','だけ','と','と','なり','なり','こそ','こそ','ては','に','に','にしては','にとって','について','とも…とも','が','は','として','として','ばかりでなく','だけ','のみ','なり','がはやいか','やいなや','かないうちに','ばかり','ばかりに','すら','など','とも','ともあろうひと','どころか','だけに','までもない','ものの','ところで','けれども','けれども','が','けれども','ね','ね','ね','ねえ','よ','よ','かしら','かな','な','な','なあ','なあ','の','わ','さ','こと','こと','もの','とも','ものか','や','たら','やら','ぜ','ぞ'}
+def is_particle(str):
+    return True if str in particles else False
+
 def get_sec(time_str):
     h, m, s = time_str.split(':')
     return float(h) * 3600 + float(m) * 60 + float(s)
@@ -41,7 +45,7 @@ class CaptionParser:
             inverted = str_inverted_tokens
 
             # translate
-            definitions = [{'word': token, 'senses': Dictionary().lookup(token)} for token in str_inverted_tokens.split(' ')]
+            definitions = [{ 'word': token, 'senses': Dictionary().lookup(token), 'particle': is_particle(token) } for token in str_inverted_tokens.split(' ')]
 
             parsed_chunks.append({
                 'start': start,
