@@ -4,6 +4,10 @@ from tinysegmenter import TinySegmenter
 from .kakasi import Kakasi
 from .dictionary import Dictionary
 
+def get_sec(time_str):
+    h, m, s = time_str.split(':')
+    return float(h) * 3600 + float(m) * 60 + float(s)
+
 class CaptionParser:
     def __init__(self, raw_data):
         self.raw_data = raw_data
@@ -15,7 +19,13 @@ class CaptionParser:
 
         for chunk in raw_chunks[1:]:
             chunk_lines = chunk.split('\n')
-            time_range = chunk_lines[0]
+
+            if len(chunk_lines[0]) == 0:
+                continue
+
+            time_range_parts = chunk_lines[0].split(',')
+            start = get_sec(time_range_parts[0])
+            end = get_sec(time_range_parts[1])
 
             print('parsing chunk...')
             chunk_line = ''.join(chunk_lines[1:])
@@ -34,7 +44,8 @@ class CaptionParser:
             definitions = [{'word': token, 'senses': Dictionary().lookup(token)} for token in str_inverted_tokens.split(' ')]
 
             parsed_chunks.append({
-                'time_range': time_range,
+                'start': start,
+                'end': end,
                 'original': original,
                 'inverted': inverted,
                 'definitions': definitions

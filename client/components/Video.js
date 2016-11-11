@@ -1,6 +1,7 @@
 import React from 'react'
 import YouTube from 'react-youtube'
 import TransportContainer from '../containers/TransportContainer'
+import CaptionsContainer from '../containers/CaptionsContainer'
 import { PLAYER_STATE_LOADED, PLAYER_STATE_LOADING, PLAYER_STATE_PLAYING, PLAYER_STATE_PAUSED } from '../actions/player'
 
 const TICK_INTERVAL = 300;
@@ -54,7 +55,6 @@ class Video extends React.Component {
     if (prevProps.playerState !== PLAYER_STATE_PLAYING
       && this.props.playerState === PLAYER_STATE_PLAYING) {
       this.tick();
-      this.subTick();
     }
   }
 
@@ -91,9 +91,8 @@ class Video extends React.Component {
           onReady={this.onReady.bind(this)}
           onStateChange={this.onStateChange.bind(this)}
         />
-        <TransportContainer
-          currentTime={this.props.currentTime}
-        />
+        <TransportContainer/>
+        <CaptionsContainer/>
       </div>
     );
   }
