@@ -1,10 +1,13 @@
 import React from 'react'
 import YouTube from 'react-youtube'
+import TransportContainer from '../containers/TransportContainer'
 import { PLAYER_STATE_LOADED, PLAYER_STATE_LOADING, PLAYER_STATE_PLAYING, PLAYER_STATE_PAUSED } from '../actions/player'
 
-const TICK_INTERVAL = 250;
+const TICK_INTERVAL = 300;
+const SUB_TICK_INTERVAL = 10;
 const YOUTUBE_STATE_PLAYING = 1;
 const YOUTUBE_STATE_PAUSED = 2;
+const MILLIS_PER_SECOND = 1000;
 
 const opts = {
     height: '390',
@@ -17,7 +20,7 @@ const opts = {
 class Video extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { pendingAutoplay: true };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -28,7 +31,8 @@ class Video extends React.Component {
    * Grabs current time from the YouTube player and updates application state
    */
   tick() {
-    this.props.onPlayerTimeChange(this.player.getMediaReferenceTime());
+    var time = this.player.getMediaReferenceTime();  
+    this.props.onPlayerTimeChange(time);
     if (this.props.playerState === PLAYER_STATE_PLAYING) {
       setTimeout(this.tick.bind(this), TICK_INTERVAL);
     }
@@ -50,6 +54,7 @@ class Video extends React.Component {
     if (prevProps.playerState !== PLAYER_STATE_PLAYING
       && this.props.playerState === PLAYER_STATE_PLAYING) {
       this.tick();
+      this.subTick();
     }
   }
 
@@ -79,12 +84,17 @@ class Video extends React.Component {
 
   render() {
     return (
-      <YouTube
-        videoId={this.props.videoId}
-        opts={opts}
-        onReady={this.onReady.bind(this)}
-        onStateChange={this.onStateChange.bind(this)}
-      />
+      <div>
+        <YouTube
+          videoId={this.props.videoId}
+          opts={opts}
+          onReady={this.onReady.bind(this)}
+          onStateChange={this.onStateChange.bind(this)}
+        />
+        <TransportContainer
+          currentTime={this.props.currentTime}
+        />
+      </div>
     );
   }
 }

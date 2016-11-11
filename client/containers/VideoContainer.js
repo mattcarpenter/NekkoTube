@@ -1,17 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Video } from '../components'
+import Video  from '../components/Video'
 import { fetchVideo, fetchVideoSuccess, fetchVideoFailure } from '../actions/videos'
 import { setPlayerState, playerTimeChanged } from '../actions/player'
 import { VIDEO_STATE_LOADED } from '../actions/videos'
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('mapStateToProps', state);
-  console.log(state.player.time);
   return {
     videoId: ownProps.params.videoId,
     videoData: state.video.data,
-    playerState: state.player.state
+    playerState: state.player.state,
+    currentTime: state.player.time
   };
 }
 

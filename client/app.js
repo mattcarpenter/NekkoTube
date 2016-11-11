@@ -8,8 +8,9 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import * as reducers from './reducers'
-import { Home } from './components'
-import { AppContainer, VideoContainer } from './containers'
+import Home from './components/Home'
+import AppContainer from './containers/AppContainer'
+import VideoContainer from './containers/VideoContainer'
 
 const reducer = combineReducers({
   ...reducers,
