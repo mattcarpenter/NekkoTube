@@ -2,6 +2,8 @@
 
 ## Getting Started
 
+Requires Python 3.5.0
+
 ```
 # Install Elasticsearch
 > wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.0.0.zip
@@ -15,10 +17,17 @@
 # Set up NekkoTube
 > git clone https://github.com/mattcarpenter/nekkotube.git
 > git clone https://github.com/leoboiko/myougiden
-> cd myougiden/bin
+> cd myougiden
+> python setup.py install
+> cd bin
 > ./updatedb-myougiden -f
-# todo: instructions for copying sqlite3 db
 
+# sqlite japanese dictionary db is copied to the 'share/myougiden/' directory in your Python path
+# e.g. /Users/mcarpenter/.pyenv/versions/3.5.0/share/myougiden/
+> cp jmdict_e.sqlite ~/repos/jmdict.sqlite
+
+# Run Flask
+> cd ~/repos/NekkoTube/
 > export PYTHONPATH=.
 > export FLASK_APP=nekkotube.py
 > export FLASK_DEBUG=1
