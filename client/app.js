@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import promise from 'redux-promise'
 
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
@@ -15,9 +15,11 @@ import VideoContainer from './containers/VideoContainer'
 const reducer = combineReducers({
   ...reducers,
   routing: routerReducer
-})
+});
 
-const store = createStore(reducer, applyMiddleware(promise));
+const enhancer = compose(applyMiddleware(promise));
+
+const store = createStore(reducer, {}, enhancer);
 const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(

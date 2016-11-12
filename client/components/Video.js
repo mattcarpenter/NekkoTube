@@ -127,7 +127,7 @@ class Video extends React.Component {
 
   render() {
     return (
-      <div style={{ ...styles.container, width: opts.width }}>
+      <div style={{ ...styles.container, width: Number(opts.width) }}>
         <YouTube
           videoId={this.props.videoId}
           opts={opts}
