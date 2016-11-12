@@ -2,6 +2,8 @@ import React from 'react'
 import YouTube from 'react-youtube'
 import TransportContainer from '../containers/TransportContainer'
 import CaptionsContainer from '../containers/CaptionsContainer'
+import DictionaryContainer from '../containers/DictionaryContainer'
+
 import { PLAYER_STATE_LOADED, PLAYER_STATE_LOADING, PLAYER_STATE_PLAYING, PLAYER_STATE_PAUSED } from '../actions/player'
 import { VIDEO_STATE_PLAYING, VIDEO_STATE_PAUSED } from '../actions/videos';
 
@@ -118,10 +120,12 @@ class Video extends React.Component {
   onStateChange(event) {
     if (event.data === YOUTUBE_STATE_PAUSED) {
       this.props.onVideoStateChange(PLAYER_STATE_PAUSED);
+      this.props.setVideoState(VIDEO_STATE_PAUSED);
     }
 
     if (event.data === YOUTUBE_STATE_PLAYING) {
       this.props.onVideoStateChange(PLAYER_STATE_PLAYING);
+      this.props.setVideoState(VIDEO_STATE_PLAYING);
     }
   }
 
@@ -138,6 +142,7 @@ class Video extends React.Component {
           width={Number(opts.width)}
         />
         <CaptionsContainer/>
+        <DictionaryContainer/>
       </div>
     );
   }

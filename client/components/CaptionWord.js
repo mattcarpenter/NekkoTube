@@ -17,6 +17,10 @@ class Captions extends React.Component {
     this.playVideo = debounce(function () {
       this.props.setVideoState(VIDEO_STATE_PLAYING);
     }, 250);
+
+    this.toggleLatched = debounce(function () {
+      this.props.toggleLatched();
+    }, 300);
   }
 
   componentDidMount() {
@@ -28,6 +32,7 @@ class Captions extends React.Component {
 
   enter() {
     this.pauseVideo();
+    this.props.setDictionaryWord(this.props.word);
   }
 
   leave() {
@@ -35,8 +40,8 @@ class Captions extends React.Component {
   }
 
   click() {
-    this.state.latched = !this.state.latched;
-    this.props.toggleLatched();
+    this.setState({ latched: !this.state.latched });
+    this.toggleLatched();
   }
 
   render() {
@@ -45,6 +50,12 @@ class Captions extends React.Component {
       style.backgroundColor = styles.particleBackgroundColor;
     } else {
       style.backgroundColor = styles.defaultbackgroundColor;
+    }
+
+    if (this.state.latched) {
+      style.borderColor = styles.latchedBorderColor;
+    } else {
+      style.borderColor = styles.defaultBorderColor;
     }
 
     return (
@@ -69,7 +80,9 @@ const styles = {
     margin: 2
   },
   particleBackgroundColor: '#E0E0E0',
-  defaultbackgroundColor: '#FAFAFA'
+  defaultbackgroundColor: '#FAFAFA',
+  latchedBorderColor: '#FF0000',
+  defaultBorderColor: '#D0D0D0'
 };
 
 function debounce(func, wait, immediate) {

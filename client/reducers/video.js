@@ -10,39 +10,33 @@ const initialState = {
 };
 
 export default function update(state = initialState, action) {
-  if (action.type === FETCH_VIDEO_SUCCESS) {
-    console.log('fetch video succcess. action:', action);
+  switch(action.type) {
+    case FETCH_VIDEO_SUCCESS:
+        // Generate a words object array for each line
+        parseCaptions(action.payload.data.captionData);
+        return { ...state, state: VIDEO_STATE_LOADED, data: action.payload.data };
 
-    // Generate a words object array for each line
-    parseCaptions(action.payload.data.captionData);
+    case PLAYER_TIME_CHANGED: 
+        var currentCaption;
+        var currentTime = action.time;
 
-    return { ...state, state: VIDEO_STATE_LOADED, data: action.payload.data };
-  }
+        // Player time changed; update current caption
+        state.data.captionData.forEach(function (caption) {
+            if (currentTime > caption.start && currentTime < caption.end) {
+                currentCaption = caption;
+            }
+        });
 
-  if (action.type === PLAYER_TIME_CHANGED) {
-    var currentCaption;
-    var currentTime = action.time;
+        return { ...state, currentCaption: currentCaption };
 
-    // Player time changed; update current caption
-    state.data.captionData.forEach(function (caption) {
-        if (currentTime > caption.start && currentTime < caption.end) {
-            currentCaption = caption;
+    case TOGGLE_LATCHED:
+        return { ...state, latched: state.latched === VIDEO_LATCHED_TRUE ? VIDEO_LATCHED_FALSE : VIDEO_LATCHED_TRUE };
+
+    case SET_VIDEO_STATE:
+        if (state.latched === VIDEO_LATCHED_TRUE) {
+            return state;
         }
-    });
-
-    return { ...state, currentCaption: currentCaption };
-  }
-
-  if (action.type === TOGGLE_LATCHED) {
-    return { ...state, latched: state.latched === VIDEO_LATCHED_TRUE ? VIDEO_LATCHED_FALSE : VIDEO_LATCHED_TRUE };
-  }
-
-  if (action.type === SET_VIDEO_STATE) {
-    if (state.latched === VIDEO_LATCHED_TRUE) {
-        return state;
-    }
-    
-    return { ...state, state: action.state };
+        return { ...state, state: action.state };
   }
 
   return state
