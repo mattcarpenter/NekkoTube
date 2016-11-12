@@ -6,7 +6,7 @@ from bson.json_util import dumps
 
 from pymongo import MongoClient
 mongo_client = MongoClient()
-db = mongo_client['nekkotube']
+db = mongo_client['nekotube']
 
 class VideoResource(Resource):
     "Returns a Video resource"

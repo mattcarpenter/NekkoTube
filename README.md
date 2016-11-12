@@ -1,4 +1,4 @@
-# NekkoTube
+# NekoTube
 
 ## Getting Started
 
@@ -14,9 +14,9 @@ Requires Python 3.5.0
 # Install Mongodb (OSX)
 > brew install mongodb
 
-# Set up NekkoTube
-> git clone https://github.com/mattcarpenter/nekkotube.git
-> cd nekkotube/db
+# Set up NekoTube
+> git clone https://github.com/mattcarpenter/nekotube.git
+> cd nekotube/db
 > gunzip jmdict.sqlite.gz
 > cd ../scraper
 
@@ -26,9 +26,9 @@ Requires Python 3.5.0
 # https://console.developers.google.com/apis/
 
 # Run Flask
-> cd ~/repos/nekkotube/
+> cd ~/repos/nekotube/
 > export PYTHONPATH=.
-> export FLASK_APP=nekkotube.py
+> export FLASK_APP=nekotube.py
 > export FLASK_DEBUG=1
 > flask run
 ```

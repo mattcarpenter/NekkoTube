@@ -31,7 +31,7 @@ class Scraper:
     def scrape(self, video_id):
 
         mongo_client = MongoClient()
-        db = mongo_client['nekkotube']
+        db = mongo_client['nekotube']
         es = Elasticsearch()
 
         # Loads metadata
@@ -96,7 +96,7 @@ class Scraper:
                 'original': line['original'],
                 'inverted': line['inverted']
             }
-            res = es.index(index='nekkotube', doc_type='caption_line', body=doc)
+            res = es.index(index='nekotube', doc_type='caption_line', body=doc)
             print(res)
 
         print(json.dumps(parsed_captions))
