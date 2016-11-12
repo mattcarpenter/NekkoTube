@@ -37,7 +37,8 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginBottom: 15
   }
 }
 

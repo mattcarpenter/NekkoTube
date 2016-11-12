@@ -103,6 +103,12 @@ class Video extends React.Component {
     
   }
 
+  seek(time) {
+    this.state.warmingUp = true;
+    this.player.seekTo(time, true);
+    this.props.onVideoStateChange(PLAYER_STATE_LOADING);
+  }
+
   /** 
    * Called when the YouTube player is ready
    * @param {object} event
@@ -133,6 +139,7 @@ class Video extends React.Component {
     return (
       <div style={{ ...styles.container, width: Number(opts.width) }}>
         <YouTube
+          style={styles.video}
           videoId={this.props.videoId}
           opts={opts}
           onReady={this.onReady.bind(this)}
@@ -140,6 +147,7 @@ class Video extends React.Component {
         />
         <TransportContainer
           width={Number(opts.width)}
+          onSeek={this.seek.bind(this)}
         />
         <CaptionsContainer/>
         <DictionaryContainer/>
@@ -149,6 +157,9 @@ class Video extends React.Component {
 }
 
 const styles = {
+  video: {
+    marginBottom: 15
+  },
   container: {
     display: 'flex',
     flexDirection: 'column'

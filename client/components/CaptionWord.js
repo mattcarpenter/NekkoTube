@@ -10,6 +10,10 @@ class Captions extends React.Component {
       latched: false
     }
 
+    this.setVideoState = debounce(function (state) {
+      this.props.setVideoState(state);
+    }, 250);
+
     this.pauseVideo = debounce(function () {
       this.props.setVideoState(VIDEO_STATE_PAUSED);
     }, 250);
@@ -31,12 +35,14 @@ class Captions extends React.Component {
   }
 
   enter() {
-    this.pauseVideo();
+    //this.pauseVideo();
+    this.setVideoState(VIDEO_STATE_PAUSED);
     this.props.setDictionaryWord(this.props.word);
   }
 
   leave() {
-    this.playVideo();
+    //this.playVideo();
+    this.setVideoState(VIDEO_STATE_PLAYING);
   }
 
   click() {
