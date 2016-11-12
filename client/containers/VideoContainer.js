@@ -11,7 +11,8 @@ const mapStateToProps = (state, ownProps) => {
     videoData: state.video.data,
     playerState: state.player.state,
     currentTime: state.player.time,
-    videoState: state.video.state
+    videoState: state.video.state,
+    searchTerms: (ownProps.location.query.words || '').split(',')
   };
 }
 

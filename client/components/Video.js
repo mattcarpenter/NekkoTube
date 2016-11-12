@@ -148,6 +148,7 @@ class Video extends React.Component {
         <TransportContainer
           width={Number(opts.width)}
           onSeek={this.seek.bind(this)}
+          searchTerms={this.props.searchTerms}
         />
         <CaptionsContainer/>
         <DictionaryContainer/>

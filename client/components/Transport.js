@@ -23,26 +23,39 @@ class Transport extends React.Component {
     }
   }
 
+  containsSearchTerms(caption) {
+    var found = false;
+    (caption.inverted || '').split(',').forEach((word) => {
+      (this.props.searchTerms || []).forEach((term) => {
+        if (term === word) {
+          found = true;
+        }
+      });
+    });
+
+    return found;
+  }
+
   render() {
-    // Build segments
     var segments = [];
 
+    // build segments
     if (this.props.videoData && this.props.videoData.captionData) { 
-      this.props.videoData.captionData.forEach((caption, index) => { //caption.start, caption.end
+      this.props.videoData.captionData.forEach((caption, index) => {
         let left = Number(caption.start) * this.props.width / this.props.duration;
         let right = Number(caption.end) * this.props.width / this.props.duration;
         segments.push(
           <div
             onClick={()=>this.seek(caption.start)}
             key={index}
-            style={{ ...styles.segment, left: left, width: right-left }}
+            style={{ ...styles.segment, left: left, width: right-left, backgroundColor: this.containsSearchTerms(caption) ? '#efeab1' : '#F0F0F0' }}
             className="transport-segment">
           </div>
         );
       });
     }
 
-    // Return component
+    // return transport container with segments and position indicator
     return (
       <div style={{ ...styles.container, width: this.props.width }}>
         {segments}
@@ -70,7 +83,6 @@ const styles = {
   },
   segment: {
     height: '40px',
-    backgroundColor: '#F0F0F0',
     position: 'absolute',
     top: 0,
     borderLeftWidth: 1,
