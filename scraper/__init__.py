@@ -12,6 +12,7 @@ from oauth2client.file import Storage
 from oauth2client.tools import argparser, run_flow
 from pymongo import MongoClient
 from elasticsearch import Elasticsearch
+from isodate.isoduration import parse_duration
 
 from .captionparser import CaptionParser
 
@@ -35,7 +36,7 @@ class Scraper:
 
         # Loads metadata
         metadata = self.youtube.videos().list(
-            part = 'snippet',
+            part = 'snippet,contentDetails',
             id = video_id
         ).execute()
 
@@ -44,6 +45,10 @@ class Scraper:
         except:
             raise ValueError('Video not found.')
 
+        try:
+            duration = parse_duration(metadata['items'][0]['contentDetails']['duration']).total_seconds()
+        except:
+            raise ValueError('Could not parse duration')
 
         # Loads captions for specified YouTube video id
         results = self.youtube.captions().list(
@@ -77,7 +82,8 @@ class Scraper:
             'youtubeVideoId': video_id,
             'title': snippet['title'],
             'thumbnails': snippet['thumbnails'],
-            'captionData': parsed_captions
+            'captionData': parsed_captions,
+            'duration': duration
         })
         print('Video inserted. id: {}'.format(result.inserted_id))
 

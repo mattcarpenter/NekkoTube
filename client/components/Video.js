@@ -4,7 +4,7 @@ import TransportContainer from '../containers/TransportContainer'
 import CaptionsContainer from '../containers/CaptionsContainer'
 import { PLAYER_STATE_LOADED, PLAYER_STATE_LOADING, PLAYER_STATE_PLAYING, PLAYER_STATE_PAUSED } from '../actions/player'
 
-const TICK_INTERVAL = 10;
+const TICK_INTERVAL = 100;
 const SUB_TICK_INTERVAL = 10;
 const YOUTUBE_STATE_PLAYING = 1;
 const YOUTUBE_STATE_PAUSED = 2;
@@ -44,7 +44,8 @@ class Video extends React.Component {
 
     if (this.state.warmingUp) {
       // Player is warming up. Grab the media reference time more frequently.
-      time = this.player.getMediaReferenceTime(); 
+      time = this.player.getMediaReferenceTime();
+
       if (this.state.lastReferenceTime !== time) {
         // Player started. Capture the current timestamp for calculating an
         // approximate player time each tick.
@@ -120,7 +121,9 @@ class Video extends React.Component {
           onReady={this.onReady.bind(this)}
           onStateChange={this.onStateChange.bind(this)}
         />
-        <TransportContainer/>
+        <TransportContainer
+          width={Number(opts.width)}
+        />
         <CaptionsContainer/>
       </div>
     );
