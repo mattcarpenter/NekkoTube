@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import CaptionWord  from '../components/CaptionWord'
-import { setPlayerState, playerTimeChanged } from '../actions/player'
+import { setVideoState } from '../actions/videos'
 
 const mapStateToProps = (state, ownProps) => {
   return {};
@@ -9,8 +9,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setPlayerState: (state) => {
-      dispatch(setPlayerState(state));
+    setVideoState: (state) => {
+      dispatch(setVideoState(state));
     }
   };
 }

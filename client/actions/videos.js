@@ -7,6 +7,10 @@ export const FETCH_VIDEO_FAILURE = 'FETCH_VIDEO_FAILURE';
 export const VIDEO_STATE_LOADING = 'VIDEO_STATE_LOADING';
 export const VIDEO_STATE_LOADED = 'VIDEO_STATE_LOADED';
 
+export const SET_VIDEO_STATE = 'SET_VIDEO_STATE';
+export const VIDEO_STATE_PLAYING = 'VIDEO_STATE_PLAYING';
+export const VIDEO_STATE_PAUSED = 'VIDEO_STATE_PAUSED';
+
 export function fetchVideo(videoId) {
 	const request = axios({
 		method: 'get',
@@ -32,5 +36,12 @@ export function fetchVideoFailure(error) {
 	return {
 		type: FETCH_VIDEO_FAILURE,
 		payload: error
+	};
+}
+
+export function setVideoState(state) {
+	return {
+		type: SET_VIDEO_STATE,
+		state: state
 	};
 }

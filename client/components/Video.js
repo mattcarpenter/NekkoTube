@@ -3,6 +3,7 @@ import YouTube from 'react-youtube'
 import TransportContainer from '../containers/TransportContainer'
 import CaptionsContainer from '../containers/CaptionsContainer'
 import { PLAYER_STATE_LOADED, PLAYER_STATE_LOADING, PLAYER_STATE_PLAYING, PLAYER_STATE_PAUSED } from '../actions/player'
+import { VIDEO_STATE_PLAYING, VIDEO_STATE_PAUSED } from '../actions/videos';
 
 const TICK_INTERVAL = 100;
 const SUB_TICK_INTERVAL = 10;
@@ -78,26 +79,26 @@ class Video extends React.Component {
     if (prevProps.playerState === PLAYER_STATE_LOADING
       && this.props.playerState === PLAYER_STATE_LOADED) {
       this.player.playVideo();
-      this.props.onVideoStateChange(PLAYER_STATE_PLAYING);
     }
 
-    // Start ticking if player state changes from `not plaing` to `playing`.
+    // Start ticking if player state changes from `not playing` to `playing`.
     if (prevProps.playerState !== PLAYER_STATE_PLAYING
       && this.props.playerState === PLAYER_STATE_PLAYING) {
       this.tick();
     }
 
-    // Pause when state goes from playing to paused
-    if (prevProps.playerState === PLAYER_STATE_PLAYING
-      && this.props.playerState === PLAYER_STATE_PAUSED) {
+    // Pause the player if the video state changes from playing to paused
+    if (prevProps.videoState === VIDEO_STATE_PLAYING
+      && this.props.videoState === VIDEO_STATE_PAUSED) {
       this.player.pauseVideo();
     }
 
-    // Play when state goes from paused to playing
-    if (prevProps.playerState === PLAYER_STATE_PAUSED
-      && this.props.playerState === PLAYER_STATE_PLAYING) {
+    // Start the player if the video state changes from paused to playing
+    if (prevProps.videoState === VIDEO_STATE_PAUSED
+      && this.props.videoState === VIDEO_STATE_PLAYING) {
       this.player.playVideo();
     }
+    
   }
 
   /** 

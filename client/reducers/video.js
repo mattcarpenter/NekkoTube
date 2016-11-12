@@ -1,4 +1,4 @@
-import { FETCH_VIDEO_SUCCESS, FETCH_VIDEO_FAILURE, VIDEO_STATE_LOADING, VIDEO_STATE_LOADED } from '../actions/videos'
+import { FETCH_VIDEO_SUCCESS, FETCH_VIDEO_FAILURE, VIDEO_STATE_LOADING, VIDEO_STATE_LOADED, VIDEO_STATE_PLAYING, VIDEO_STATE_PAUSED, SET_VIDEO_STATE } from '../actions/videos'
 import { PLAYER_TIME_CHANGED } from '../actions/player'
 
 const initialState = {
@@ -28,6 +28,10 @@ export default function update(state = initialState, action) {
     });
 
     return { ...state, currentCaption: currentCaption };
+  }
+
+  if (action.type === SET_VIDEO_STATE) {
+    return { ...state, state: action.state };
   }
 
   return state

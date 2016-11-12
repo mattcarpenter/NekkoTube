@@ -1,14 +1,18 @@
 import React from 'react'
 
-import { PLAYER_STATE_PAUSED, PLAYER_STATE_PLAYING } from '../actions/player'
+import { VIDEO_STATE_PAUSED, VIDEO_STATE_PLAYING } from '../actions/videos'
 
 class Captions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
     this.pauseVideo = debounce(function () {
-      this.props.setPlayerState(PLAYER_STATE_PAUSED);
-    }, 100);
+      this.props.setVideoState(VIDEO_STATE_PAUSED);
+    }, 250);
+
+    this.playVideo = debounce(function () {
+      this.props.setVideoState(VIDEO_STATE_PLAYING);
+    }, 250);
   }
 
   componentDidMount() {
@@ -23,7 +27,7 @@ class Captions extends React.Component {
   }
 
   leave() {
-    this.props.setPlayerState(PLAYER_STATE_PLAYING);
+    this.playVideo();
   }
 
   render() {
