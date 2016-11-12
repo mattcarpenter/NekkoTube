@@ -4,11 +4,15 @@ import TransportContainer from '../containers/TransportContainer'
 import CaptionsContainer from '../containers/CaptionsContainer'
 import { PLAYER_STATE_LOADED, PLAYER_STATE_LOADING, PLAYER_STATE_PLAYING, PLAYER_STATE_PAUSED } from '../actions/player'
 
-const TICK_INTERVAL = 300;
+const TICK_INTERVAL = 10;
 const SUB_TICK_INTERVAL = 10;
 const YOUTUBE_STATE_PLAYING = 1;
 const YOUTUBE_STATE_PAUSED = 2;
 const MILLIS_PER_SECOND = 1000;
+
+const PLAYER_TIME_UPDATE_INTERVAL = 500;
+
+var t = 0;
 
 const opts = {
     height: '390',
@@ -21,7 +25,11 @@ const opts = {
 class Video extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      warmingUp: true,
+      lastReferenceTime: 0,
+      lastStartedPlayingAt: 0
+    };
   }
 
   componentDidMount() {
@@ -32,7 +40,22 @@ class Video extends React.Component {
    * Grabs current time from the YouTube player and updates application state
    */
   tick() {
-    var time = this.player.getMediaReferenceTime();  
+    var time = 0;
+
+    if (this.state.warmingUp) {
+      // Player is warming up. Grab the media reference time more frequently.
+      time = this.player.getMediaReferenceTime(); 
+      if (this.state.lastReferenceTime !== time) {
+        // Player started. Capture the current timestamp for calculating an
+        // approximate player time each tick.
+        this.state.lastStartedPlayingAt = (new Date()).getTime();
+        this.state.warmingUp = false;
+      }
+      this.state.lastReferenceTime = time;
+    } else {
+      // Player is playing. Calculate an approximate media reference time.
+      time = this.state.lastReferenceTime + ((new Date()).getTime() - this.state.lastStartedPlayingAt) / MILLIS_PER_SECOND;
+    }
     this.props.onPlayerTimeChange(time);
     if (this.props.playerState === PLAYER_STATE_PLAYING) {
       setTimeout(this.tick.bind(this), TICK_INTERVAL);
@@ -44,6 +67,12 @@ class Video extends React.Component {
    * @param {object} prevProps previous props
    */
   componentDidUpdate(prevProps) {
+
+    // Any time the player state changes, set warmingUp true
+    if (prevProps.playerState !== this.props.playerState) {
+      this.state.warmingUp = true;
+    }
+
     // Auto-play the video once the captions and video have both loaded.
     if (prevProps.playerState === PLAYER_STATE_LOADING
       && this.props.playerState === PLAYER_STATE_LOADED) {
