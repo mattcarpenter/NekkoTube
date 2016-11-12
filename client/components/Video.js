@@ -86,6 +86,18 @@ class Video extends React.Component {
       && this.props.playerState === PLAYER_STATE_PLAYING) {
       this.tick();
     }
+
+    // Pause when state goes from playing to paused
+    if (prevProps.playerState === PLAYER_STATE_PLAYING
+      && this.props.playerState === PLAYER_STATE_PAUSED) {
+      this.player.pauseVideo();
+    }
+
+    // Play when state goes from paused to playing
+    if (prevProps.playerState === PLAYER_STATE_PAUSED
+      && this.props.playerState === PLAYER_STATE_PLAYING) {
+      this.player.playVideo();
+    }
   }
 
   /** 
@@ -114,7 +126,7 @@ class Video extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ ...styles.container, width: opts.width }}>
         <YouTube
           videoId={this.props.videoId}
           opts={opts}
@@ -129,5 +141,12 @@ class Video extends React.Component {
     );
   }
 }
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column'
+  }
+};
 
 export default Video
