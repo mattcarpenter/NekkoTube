@@ -29,8 +29,13 @@ class CaptionParser:
                 continue
 
             time_range_parts = chunk_lines[0].split(',')
-            start = get_sec(time_range_parts[0])
-            end = get_sec(time_range_parts[1])
+
+            if ':' in time_range_parts:
+                start = get_sec(time_range_parts[0])
+                end = get_sec(time_range_parts[1])
+            else:
+                start = float(time_range_parts[0])
+                end = float(time_range_parts[1])
 
             print('parsing chunk...')
             chunk_line = ''.join(chunk_lines[1:])

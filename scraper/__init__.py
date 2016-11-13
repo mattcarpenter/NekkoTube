@@ -28,7 +28,7 @@ class Scraper:
     def __init__(self):
         self.youtube = self.get_authenticated_service()
 
-    def scrape(self, video_id):
+    def scrape(self, video_id, fileName):
 
         mongo_client = MongoClient()
         db = mongo_client['nekotube']
@@ -51,30 +51,36 @@ class Scraper:
             raise ValueError('Could not parse duration')
 
         # Loads captions for specified YouTube video id
-        results = self.youtube.captions().list(
-            part = 'snippet',
-            videoId = video_id
-        ).execute()
+        if len(fileName) == 0:
+            results = self.youtube.captions().list(
+                part = 'snippet',
+                videoId = video_id
+            ).execute()
 
-        if 'items' not in results:
-            raise ValueError('no captions in video ' + video_id)
+            if 'items' not in results:
+                raise ValueError('no captions in video ' + video_id)
 
-        # Locate captions resource
-        captions_resource = None
-        for item in results['items']:
-            if item['snippet']['language'] == 'ja':
-                captions_resource = item
+            # Locate captions resource
+            captions_resource = None
+            for item in results['items']:
+                if item['snippet']['language'] == 'ja':
+                    captions_resource = item
 
-        if captions_resource is None:
-            raise ValueError('no Japanese captions in video ' + video_id)
+            if captions_resource is None:
+                raise ValueError('no Japanese captions in video ' + video_id)
 
-        # Download raw captions file from youtube
-        captions = self.youtube.captions().download(
-            id=captions_resource['id']
-        ).execute()
+            # Download raw captions file from youtube
+            captions = self.youtube.captions().download(
+                id=captions_resource['id']
+            ).execute().decode('utf-8')
+        else:
+            # Transcript file was provided so skip the YouTube captions download
+            f = open(fileName, encoding='utf-8')
+            captions = f.read()
+            f.close()
 
         # Tokenizes the Japanese captions and translates Kanji into Hirigana
-        parser = CaptionParser(captions.decode('utf-8'))
+        parser = CaptionParser(captions)
         parsed_captions = parser.parse()
 
         # Create record in Mongo

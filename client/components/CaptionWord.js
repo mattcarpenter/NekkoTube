@@ -2,6 +2,14 @@ import React from 'react'
 
 import { VIDEO_STATE_PAUSED, VIDEO_STATE_PLAYING } from '../actions/videos'
 
+var setVideoState = debounce(function (state, props) {
+      props.setVideoState(state);
+}, 250);
+
+var toggleLatched = debounce(function (props) {
+      props.toggleLatched();
+}, 300);
+
 class Captions extends React.Component {
   constructor(props) {
     super(props);
@@ -9,22 +17,6 @@ class Captions extends React.Component {
     this.state = {
       latched: false
     }
-
-    this.setVideoState = debounce(function (state) {
-      this.props.setVideoState(state);
-    }, 250);
-
-    this.pauseVideo = debounce(function () {
-      this.props.setVideoState(VIDEO_STATE_PAUSED);
-    }, 250);
-
-    this.playVideo = debounce(function () {
-      this.props.setVideoState(VIDEO_STATE_PLAYING);
-    }, 250);
-
-    this.toggleLatched = debounce(function () {
-      this.props.toggleLatched();
-    }, 300);
   }
 
   componentDidMount() {
@@ -35,19 +27,17 @@ class Captions extends React.Component {
   }
 
   enter() {
-    //this.pauseVideo();
-    this.setVideoState(VIDEO_STATE_PAUSED);
+    setVideoState(VIDEO_STATE_PAUSED, this.props);
     this.props.setDictionaryWord(this.props.word);
   }
 
   leave() {
-    //this.playVideo();
-    this.setVideoState(VIDEO_STATE_PLAYING);
+    setVideoState(VIDEO_STATE_PLAYING, this.props);
   }
 
   click() {
     this.setState({ latched: !this.state.latched });
-    this.toggleLatched();
+    toggleLatched(this.props);
   }
 
   render() {
