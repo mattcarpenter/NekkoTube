@@ -1,6 +1,7 @@
 import { FETCH_VIDEO_SUCCESS, FETCH_VIDEO_FAILURE, VIDEO_STATE_LOADING,
          VIDEO_STATE_LOADED, VIDEO_STATE_PLAYING, VIDEO_STATE_PAUSED,
-         SET_VIDEO_STATE, VIDEO_LATCHED_TRUE, VIDEO_LATCHED_FALSE, TOGGLE_LATCHED } from '../actions/videos'
+         SET_VIDEO_STATE, VIDEO_LATCHED_TRUE, VIDEO_LATCHED_FALSE, 
+         TOGGLE_LATCHED, SEARCH_VIDEOS, SEARCH_VIDEOS_SUCCESS, SEARCH_VIDEOS_FAILURE } from '../actions/videos'
 import { PLAYER_TIME_CHANGED } from '../actions/player'
 
 const initialState = {
@@ -17,15 +18,17 @@ export default function update(state = initialState, action) {
         return { ...state, state: VIDEO_STATE_LOADED, data: action.payload.data };
 
     case PLAYER_TIME_CHANGED: 
-        var currentCaption;
+        var currentCaption = {};
         var currentTime = action.time;
 
         // Player time changed; update current caption
-        state.data.captionData.forEach(function (caption) {
-            if (currentTime > caption.start && currentTime < caption.end) {
-                currentCaption = caption;
-            }
-        });
+        if (state.data) {
+            state.data.captionData.forEach(function (caption) {
+                if (currentTime > caption.start && currentTime < caption.end) {
+                    currentCaption = caption;
+                }
+            });
+        }
 
         return { ...state, currentCaption: currentCaption };
 
@@ -37,6 +40,8 @@ export default function update(state = initialState, action) {
             return state;
         }
         return { ...state, state: action.state };
+    case SEARCH_VIDEOS_SUCCESS:
+        return { ...state, searchResults: action.payload.data }
   }
 
   return state

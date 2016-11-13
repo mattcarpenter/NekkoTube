@@ -7,7 +7,7 @@ export default function AppContainer({ children }) {
       <header style={styles.header}>
         <h1>=＾● ⋏ ●＾=</h1>
         <navigation>
-          <Link to="/">Home</Link>
+          <a href="/">Home</a>
         </navigation>
       </header>
       {children}

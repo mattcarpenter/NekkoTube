@@ -4,6 +4,10 @@ export const FETCH_VIDEO = 'FETCH_VIDEO';
 export const FETCH_VIDEO_SUCCESS = 'FETCH_VIDEO_SUCCESS';
 export const FETCH_VIDEO_FAILURE = 'FETCH_VIDEO_FAILURE';
 
+export const SEARCH_VIDEOS = 'SEARCH_VIDEOS';
+export const SEARCH_VIDEOS_SUCCESS = 'SEARCH_VIDEOS_SUCCESS';
+export const SEARCH_VIDEOS_FAILURE = 'SEARCH_VIDEOS_FAILURE';
+
 export const VIDEO_STATE_LOADING = 'VIDEO_STATE_LOADING';
 export const VIDEO_STATE_LOADED = 'VIDEO_STATE_LOADED';
 
@@ -53,5 +57,32 @@ export function setVideoState(state) {
 export function toggleLatched() {
 	return {
 		type: TOGGLE_LATCHED
+	};
+}
+
+export function searchVideos(query) {
+	const request = axios({
+		method: 'get',
+		url: '/search?query=' + encodeURIComponent(query),
+		headers: []
+	});
+
+	return {
+		type: SEARCH_VIDEOS,
+		payload: request
+	};
+}
+
+export function searchVideosSuccess(video) {
+	return {
+		type: SEARCH_VIDEOS_SUCCESS,
+		payload: video
+	};
+}
+
+export function searchVideosFailure(error) {
+	return {
+		type: SEARCH_VIDEOS_FAILURE,
+		payload: error
 	};
 }

@@ -1,9 +1,13 @@
 from flask_restful import Resource, Api
 from flask_restful_swagger import swagger
 from elasticsearch import Elasticsearch
-from flask import request
+from flask import request, Response
+from bson.json_util import dumps
 
 es = Elasticsearch()
+from pymongo import MongoClient
+mongo_client = MongoClient()
+db = mongo_client['nekotube']
 
 class SearchResource(Resource):
     "Search Indexed Videos"
@@ -31,4 +35,18 @@ class SearchResource(Resource):
             index='nekotube',
             body={'query': { 'match_phrase': { 'inverted': request.args['query'] }}}
         )
-        return result
+
+        videos = set()
+
+        try:
+            hits = result['hits']['hits']
+        except:
+            hits = []
+
+        # de-dupe videos
+        for hit in hits:
+            videos.add(hit['_source']['youtubeVideoId'])
+
+        results = db['videos'].find({'youtubeVideoId': { '$in': list(videos)}}, { 'captionData': 0})
+
+        return Response(dumps(results), mimetype='application/json')

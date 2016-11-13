@@ -28,11 +28,16 @@ const opts = {
 class Video extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       warmingUp: true,
       lastReferenceTime: 0,
       lastStartedPlayingAt: 0
     };
+
+    // Reset player state
+    props.onPlayerTimeChange(0);
+    props.onVideoStateChange(PLAYER_STATE_LOADING);
   }
 
   componentDidMount() {
