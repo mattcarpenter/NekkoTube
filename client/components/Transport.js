@@ -44,7 +44,7 @@ class Transport extends React.Component {
     if (this.props.videoData && this.props.videoData.captionData) { 
       this.props.videoData.captionData.forEach((caption, index) => {
         let left = Number(caption.start) * this.props.width / this.props.duration;
-        let right = Number(caption.end) * this.props.width / this.props.duration;
+        let right = (Number(caption.end) * this.props.width / this.props.duration) + 1;
         segments.push(
           <div
             onClick={()=>this.seek(caption.start)}
@@ -76,14 +76,14 @@ const styles = {
     position: 'relative'
   },
   progress: {
-    height: '40px',
+    height: '38px',
     top: 0,
     backgroundColor: '#00FF00',
     width: '1px',
     position: 'absolute'
   },
   segment: {
-    height: '40px',
+    height: '38px',
     position: 'absolute',
     top: 0,
     borderLeftWidth: 1,
