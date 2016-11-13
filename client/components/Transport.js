@@ -25,7 +25,8 @@ class Transport extends React.Component {
 
   containsSearchTerms(caption) {
     var found = false;
-    (caption.inverted || '').split(',').forEach((word) => {
+
+    (caption.inverted || '').split(' ').forEach((word) => {
       (this.props.searchTerms || []).forEach((term) => {
         if (term === word) {
           found = true;
